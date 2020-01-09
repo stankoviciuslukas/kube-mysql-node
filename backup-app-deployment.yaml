@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backup-web-service
+  namespace: luko
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: 2000
+  selector:
+    app: backup-web
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup-web-deploy
+  namespace: luko
+  labels:
+    app: backup-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup-web
+  template:
+    metadata:
+      labels:
+        app: backup-web
+    spec:
+      containers:
+      - image: test
+        name: app
+        imagePullPolicy: IfNotPresent
+        ports: 
+          - containerPort: 2000
+      restartPolicy: Always

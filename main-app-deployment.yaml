@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-web-service
+  namespace: luko
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: 2000
+  selector:
+    app: main-web
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-web-deploy
+  namespace: luko
+  labels:
+    app: main-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-web
+  template:
+    metadata:
+      labels:
+        app: main-web
+    spec:
+      containers:
+      - image: test
+        name: app
+        imagePullPolicy: IfNotPresent
+        ports: 
+          - containerPort: 2000
+      restartPolicy: Always
