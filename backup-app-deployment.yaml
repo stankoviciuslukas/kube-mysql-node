@@ -30,7 +30,7 @@ spec:
         app: backup-web
     spec:
       containers:
-      - image: test
+      - image: node-app
         name: app
         imagePullPolicy: IfNotPresent
         ports: 
